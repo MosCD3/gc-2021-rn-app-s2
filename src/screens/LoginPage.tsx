@@ -30,53 +30,41 @@ const LoginPage = ({route, navigation}) => {
     }
 
     setStatus('Authenticating ..');
-    // const callback = (message) => {
-    //   if (message === "SUCCESS") {
-    //     setStatus("Login success");
-    //   } else {
-    //     setStatus(message);
-    //   }
-    // };
-    // signUp(username, password, callback);
+    signInAsync(username, password)
+      .then(() => {
+        console.log('Login success!');
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'AfterLogin'}],
+        });
+      })
+      .catch(error => {
+        if (error.code === 'auth/email-already-in-use') {
+          console.log('That email address is already in use!');
+        }
 
-    // signUpPr(username, password)
-    //   .then((result) => {
-    //     setStatus(result.msg);
-    //   })
-    //   .catch((result) => {
-    //     setStatus(result.msg);
-    //   });
+        if (error.code === 'auth/invalid-email') {
+          console.log('That email address is invalid!');
+        }
 
-    // setStatus("Authenticating .. Done");
-
-    const result = await signInAsync(username, password);
-
-    navigation.reset({
-      index: 0,
-      routes: [{name: 'AfterLogin'}],
-    });
-    return;
-    if (result === 'SUCCESS') {
-      setStatus('Login success');
-      await sleep(2000);
-      navigation.reset({
-        index: 0,
-        routes: [{name: 'AfterLogin'}],
+        console.error(error);
+        Alert.alert(`${error}`);
       });
-    } else {
-      setStatus(result);
-    }
   }
+
   return (
     <SafeAreaView style={styles.wrapper}>
       <View style={styles.topBox}>
         <View style={styles.inputBoxWrapper}>
+          <Text>Please enter your login credentials</Text>
           <TextInput
             style={styles.input}
             onChangeText={onChangeUsername}
             value={username}
             placeholder="Username"
             autoCorrect={false}
+            autoCapitalize="none"
+            keyboardType="email-address"
           />
           <TextInput
             style={styles.input}
@@ -94,6 +82,13 @@ const LoginPage = ({route, navigation}) => {
             doLogin();
           }}>
           <Text style={styles.buttonFont}>Login</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.buttonStyle}
+          onPress={() => {
+            navigation.goBack();
+          }}>
+          <Text style={styles.buttonFont}>Back</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -125,6 +120,7 @@ const styles = StyleSheet.create({
   inputBoxWrapper: {
     width: '100%',
     padding: 20,
+    alignItems: 'center',
   },
   input: {
     height: 40,
