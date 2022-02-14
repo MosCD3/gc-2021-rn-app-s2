@@ -6,6 +6,7 @@ import SignUpPage from '../screens/SignUp';
 import HomeTab from '../screens/HomeTab';
 import ProfileTab from '../screens/ProfileTab';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import HomeTabNavStack from './HomeTabNavStack';
 
 const Tabs = createBottomTabNavigator();
 
@@ -14,12 +15,13 @@ const AfterLoginPage = () => {
     <Tabs.Navigator screenOptions={{}}>
       <Tabs.Screen
         name="route-home"
-        component={HomeTab}
+        component={HomeTabNavStack}
         options={{
           title: 'Main',
           tabBarIcon: ({color, size}) => (
             <AntDesign name="home" size={24} color={color} />
           ),
+          headerShown: false,
         }}
       />
       <Tabs.Screen

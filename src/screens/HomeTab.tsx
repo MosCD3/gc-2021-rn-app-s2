@@ -1,9 +1,10 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Alert, Button, StyleSheet, Text, View} from 'react-native';
 import PageHeader from '../components/Header';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-const HomeTab = () => {
+const HomeTab = ({route, navigation}) => {
   const {midWrapper} = styles;
   return (
     <View style={midWrapper}>
@@ -11,7 +12,18 @@ const HomeTab = () => {
         <Text style={styles.textStyle}>This is the home Tab</Text>
         <AntDesign name="plussquareo" size={24} color="white" />
       </PageHeader>
-      <Text>Am home tab</Text>
+      <Button
+        onPress={() => {
+          navigation.push('Faculty');
+        }}
+        title="Faculty"
+      />
+      <Button
+        onPress={() => {
+          navigation.push('Students');
+        }}
+        title="Students"
+      />
     </View>
   );
 };
