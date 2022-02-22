@@ -1,5 +1,6 @@
 import {sleep} from '../helpers';
 import auth from '@react-native-firebase/auth';
+import {User} from '../common/types';
 
 const USERNAME = 'Moos';
 const PASS = '123';
@@ -20,4 +21,19 @@ export function signUpUser(username, password): Promise<any> {
 
 export function signInAsync(username, password) {
   return auth().signInWithEmailAndPassword(username, password);
+}
+
+export async function fetchUser(userId: string): Promise<User | undefined> {
+  await sleep(2000);
+  //Assumed here a user fetched from DB
+  //... Put code here
+  //Success
+  const avt =
+    'https://gravatar.com/avatar/c804fa4eac7ccd9b835d4cf4552b5140?s=400&d=robohash&r=x';
+  return {
+    id: userId,
+    firstName: 'Mostafa',
+    lastName: 'Gamal',
+    avatarUrl: avt,
+  };
 }

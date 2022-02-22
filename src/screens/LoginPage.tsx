@@ -1,5 +1,10 @@
 import React, {useState} from 'react';
-import {signUp, signUpPr, signInAsync} from '../services/api.service';
+import {
+  signUp,
+  signUpPr,
+  signInAsync,
+  fetchUser,
+} from '../services/api.service';
 import {
   View,
   Text,
@@ -31,12 +36,9 @@ const LoginPage = ({route, navigation}) => {
 
     setStatus('Authenticating ..');
     signInAsync(username, password)
-      .then(() => {
-        console.log('Login success!');
-        navigation.reset({
-          index: 0,
-          routes: [{name: 'AfterLogin'}],
-        });
+      .then(userCred => {
+        console.log('Login success!:', userCred.user.uid);
+        loadUserProfile(userCred.user.uid);
       })
       .catch(error => {
         if (error.code === 'auth/email-already-in-use') {
@@ -50,6 +52,20 @@ const LoginPage = ({route, navigation}) => {
         console.error(error);
         Alert.alert(`${error}`);
       });
+  }
+
+  async function loadUserProfile(userID: string) {
+    console.log('Loading user profile');
+    setStatus('Loading user profile ..');
+    const loadedUser = await fetchUser(userID);
+    if (!loadedUser) {
+      Alert.alert('Something went wrong');
+      return;
+    }
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'AfterLogin'}],
+    });
   }
 
   return (

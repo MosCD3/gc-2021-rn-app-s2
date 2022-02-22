@@ -16,6 +16,7 @@ const StudentsListPage = props => {
   useEffect(() => {
     console.log('page started');
 
+    //Invoked on page disappeared, component unmount
     return () => {
       console.log('students unmounted');
     };
