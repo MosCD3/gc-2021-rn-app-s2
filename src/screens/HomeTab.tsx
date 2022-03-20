@@ -3,13 +3,15 @@ import {Alert, Button, StyleSheet, Text, View} from 'react-native';
 import PageHeader from '../components/Header';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {useAppData} from '../providers/AppState';
 
 const HomeTab = ({route, navigation}) => {
+  const {activeUser} = useAppData();
   const {midWrapper} = styles;
   return (
     <View style={midWrapper}>
       <PageHeader>
-        <Text style={styles.textStyle}>This is the home Tab</Text>
+        <Text style={styles.textStyle}>Welcome {activeUser.firstName}</Text>
         <AntDesign name="plussquareo" size={24} color="white" />
       </PageHeader>
       <Button

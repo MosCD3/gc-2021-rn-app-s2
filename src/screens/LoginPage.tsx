@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   signUp,
   signUpPr,
@@ -18,11 +18,13 @@ import {
   Alert,
 } from 'react-native';
 import {sleep} from '../helpers';
+import {AppStateContext, useAppData} from '../providers/AppState';
 
 const LoginPage = ({route, navigation}) => {
   const [username, onChangeUsername] = useState('');
   const [password, onChangePassword] = useState('');
   const [status, setStatus] = useState('');
+  const {setActiveUser} = useAppData();
 
   async function doLogin() {
     if (username.length <= 0) {
@@ -62,6 +64,7 @@ const LoginPage = ({route, navigation}) => {
       Alert.alert('Something went wrong');
       return;
     }
+    setActiveUser(loadedUser);
     navigation.reset({
       index: 0,
       routes: [{name: 'AfterLogin'}],

@@ -4,3 +4,7 @@ export interface User {
   lastName?: string;
   avatarUrl?: string;
 }
+
+export interface AppData {
+  activeUser: User | undefined;
+}

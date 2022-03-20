@@ -15,6 +15,7 @@ import SignUpPage from './src/screens/SignUp';
 import LoginPage from './src/screens/LoginPage';
 import AfterLoginPage from './src/navigation/AfterLoginPage';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import AppStateProvider from './src/providers/AppState';
 
 const MainStack = createNativeStackNavigator();
 
@@ -22,25 +23,27 @@ const App = () => {
   AntDesign.loadFont();
   return (
     <NavigationContainer>
-      <MainStack.Navigator
-        initialRouteName="Landing"
-        screenOptions={{
-          headerShown: false,
-        }}>
-        {/* Logged out pages */}
-        <MainStack.Screen name="Landing" component={LnadingPageMain} />
-        <MainStack.Screen
-          name="SignUp"
-          component={SignUpPage}
-          options={{
-            title: 'Create Account',
-          }}
-        />
-        <MainStack.Screen name="Login" component={LoginPage} />
+      <AppStateProvider>
+        <MainStack.Navigator
+          initialRouteName="Landing"
+          screenOptions={{
+            headerShown: false,
+          }}>
+          {/* Logged out pages */}
+          <MainStack.Screen name="Landing" component={LnadingPageMain} />
+          <MainStack.Screen
+            name="SignUp"
+            component={SignUpPage}
+            options={{
+              title: 'Create Account',
+            }}
+          />
+          <MainStack.Screen name="Login" component={LoginPage} />
 
-        {/* Logged in pages */}
-        <MainStack.Screen name="AfterLogin" component={AfterLoginPage} />
-      </MainStack.Navigator>
+          {/* Logged in pages */}
+          <MainStack.Screen name="AfterLogin" component={AfterLoginPage} />
+        </MainStack.Navigator>
+      </AppStateProvider>
     </NavigationContainer>
   );
 };
